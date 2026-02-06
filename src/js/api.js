@@ -9,3 +9,13 @@ export async function getUserProfile(userName) {
 
     return await response.json();
 }
+
+export async function getUserRepos(userName) {
+    const response = await fetch(`${BASE_URL}/users/${userName}/repos?per_page=10&sort=created`);
+
+    if (!response.ok) {
+        throw new Error(`Repositórios não encontrados para o usuário: ${userName}`);
+    }
+
+    return await response.json();
+}

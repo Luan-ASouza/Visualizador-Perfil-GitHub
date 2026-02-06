@@ -2,7 +2,9 @@ const elements = {
     inputSearch: document.getElementById("input-search"),
     btnSearch: document.getElementById("btn-search"),
     alert: document.querySelector(".alert"),
-    profileResults: document.querySelector(".profile-results")
+    profileResults: document.querySelector(".profile-results"),
+    profileRepos: document.querySelector(".profile-repos")
+
 };
 
 export function getElements() {
@@ -20,6 +22,10 @@ export function showAlert(message, isError = true) {
 
 export function clearResults() {
     elements.profileResults.innerHTML = "";
+}
+
+export function clearRepos() {
+    elements.profileRepos.innerHTML = "";
 }
 
 export function renderProfile(data) {
@@ -43,8 +49,25 @@ export function renderProfile(data) {
                 <span>${data.following}</span>
             </div>
         </div>`;
-
     elements.profileResults.innerHTML = profileHTML;
+}
+
+export function renderRepos(userRepos) {
+    const UserReposHTML = userRepos.length > 0 ? userRepos.map(repo => `
+        <a href="${repo.html_url}" target="_blank">
+            <div class="repo-card">
+                <h3>${repo.name}</h3>
+                <div class="repo-stats">
+                    <span>⭐ Stars: ${repo.stargazers_count}</span>
+                    <span>🍴 Forks: ${repo.forks_count}</span>
+                    <span>👀 Watchers: ${repo.watchers_count}</span>
+                    <span>💻 Language: ${repo.language || "N/A"}</span>
+                </div>
+                <p>${repo.description || "Sem descrição disponível."}</p>
+            </div>
+        </a>
+        `).join('') : `<p>Sem repositórios disponíveis.</p>`;
+    elements.profileRepos.innerHTML = UserReposHTML;
 }
 
 export function getSearchValue() {
